@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0C6B5D">
+<title>Коктем‑3 — тест приложения</title>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Коктем‑3">
+
+<style>
+:root{--g:#0C6B5D;--g2:#15957D;--mint:#E5F7F1;--bg:#F4F8F6;--ink:#10231F;--muted:#71817D;--line:#DFEAE6;--card:#fff;--warn:#FFF2CB}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+body{display:flex;justify-content:center}
+#app{width:100%;max-width:520px;min-height:100dvh;background:var(--bg);position:relative;padding-bottom:82px}
+.top{position:sticky;top:0;z-index:20;background:rgba(244,248,246,.94);backdrop-filter:blur(14px);padding:14px 16px 10px;border-bottom:1px solid rgba(223,234,230,.7)}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,var(--g),var(--g2));display:grid;place-items:center;color:#fff;font-weight:900;font-size:16px;box-shadow:0 8px 24px rgba(12,107,93,.22)}
+.brand b{font-size:18px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.demo{margin-left:auto;background:#FFF2CB;color:#745900;font-size:10px;font-weight:900;padding:6px 8px;border-radius:999px}
+.screen{display:none;padding:12px 16px 26px}.screen.active{display:block;animation:fade .18s ease}
+@keyframes fade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(145deg,#0B5E53,#14957D);border-radius:27px;padding:24px;color:#fff;box-shadow:0 14px 35px rgba(16,70,60,.16);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.07);right:-80px;bottom:-100px}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.3px;color:#BDE9DE}
+h1{font-size:34px;line-height:1.03;letter-spacing:-1.3px;margin:13px 0 12px}.hero p{font-size:14px;line-height:1.5;color:#E4F6F1;margin:0 0 18px}
+.btn{border:0;border-radius:16px;background:var(--g);color:white;min-height:48px;padding:0 17px;font-weight:900;font-size:14px}
+.btn.white{background:#fff;color:var(--g)}.btn.soft{background:var(--mint);color:var(--g)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--g)}
+.btn.full{width:100%}.btn:active{transform:scale(.985)}
+.section-title{font-size:20px;font-weight:900;letter-spacing:-.4px;margin:22px 0 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick,.card,.choice,.doctor,.slot,.date{background:#fff;border:1px solid var(--line);border-radius:20px}
+.quick{padding:15px}.quick .ico{font-size:24px}.quick b{display:block;margin-top:9px;font-size:14px}.quick small{color:var(--muted);font-size:11px}
+.card{padding:17px;margin-top:10px}.kicker{font-size:10px;font-weight:900;letter-spacing:1.1px;color:var(--g);margin-bottom:5px}.card h3{margin:0;font-size:17px}.muted{color:var(--muted);font-size:12px;line-height:1.5}.info{font-size:13px;line-height:1.55}
+.row{display:flex;gap:10px;align-items:center}.between{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.badge{font-size:10px;font-weight:900;padding:6px 8px;border-radius:999px;background:var(--warn);color:#725600;white-space:nowrap}
+.steps{display:flex;gap:5px;margin:9px 0 18px}.bar{height:6px;background:#DCE8E4;border-radius:99;flex:1;overflow:hidden}.bar.on{background:var(--g)}
+.title{font-size:29px;font-weight:900;letter-spacing:-.8px;line-height:1.05;margin:8px 0}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:15px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{padding:14px;text-align:left;min-height:128px}.choice.sel,.doctor.sel,.date.sel,.slot.sel{border-color:var(--g);box-shadow:0 0 0 3px rgba(12,107,93,.07);background:#FBFFFD}
+.choice .ico{font-size:26px}.choice b{display:block;font-size:14px;margin:10px 0 4px}.choice small{font-size:11px;color:var(--muted);line-height:1.35}
+.doctor{display:flex;gap:11px;align-items:center;padding:12px;margin-bottom:8px}.avatar{width:53px;height:53px;border-radius:17px;background:var(--mint);display:grid;place-items:center;color:var(--g);font-weight:900;flex:0 0 auto}.doctor b{font-size:13px;line-height:1.3}.doctor small{display:block;font-size:11px;color:var(--muted);margin-top:4px;line-height:1.3}.dot{margin-left:auto;font-size:22px;color:#DAE5E1}.sel .dot{color:var(--g)}
+.dates{display:flex;gap:7px;overflow:auto;scrollbar-width:none;padding:2px 0 8px}.dates::-webkit-scrollbar{display:none}.date{min-width:73px;padding:10px 7px;text-align:center}.date span{display:block;font-size:10px;color:var(--muted)}.date strong{font-size:20px;display:block;margin:2px 0}.date.sel{background:var(--g);color:#fff}.date.sel span{color:#D9F3EB}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.slot{padding:12px 4px;text-align:center;font-weight:900;font-size:13px}.slot.busy{opacity:.28;text-decoration:line-through}
+.label{font-size:12px;font-weight:900;margin:13px 0 6px;display:block}.input{width:100%;border:1.5px solid var(--line);background:#fff;border-radius:15px;padding:14px;font-size:15px;outline:none}.input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(12,107,93,.06)}
+.summary{background:#EEF7F4;border-radius:18px;padding:14px;margin:10px 0}.sumrow{display:flex;justify-content:space-between;gap:15px;padding:5px 0;font-size:12px}.sumrow span{color:var(--muted)}.sumrow b{text-align:right}
+.nav{display:flex;gap:9px;margin-top:19px}.nav .btn:last-child{margin-left:auto}
+.success{text-align:center;padding:30px 5px}.ok{width:82px;height:82px;border-radius:50%;background:var(--mint);color:var(--g);display:grid;place-items:center;font-size:40px;margin:0 auto 16px}.success h2{font-size:30px;margin:0 0 9px}.success p{color:var(--muted);font-size:13px;line-height:1.5}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;height:76px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;z-index:30;padding-bottom:max(7px,env(safe-area-inset-bottom))}
+.tab{flex:1;border:0;background:transparent;color:#879690;font-size:10px;font-weight:800}.tab i{font-style:normal;display:block;font-size:20px;margin-bottom:3px}.tab.active{color:var(--g)}
+.note{background:#FFF9E8;border:1px solid #F0E2B9;color:#745C1E;padding:11px;border-radius:14px;font-size:11px;line-height:1.4;margin-top:12px}
+hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+@media(max-width:360px){.choices{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.title{font-size:26px}}
+
+.install-banner{display:none;margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;align-items:center;gap:12px}
+.install-banner.show{display:flex}
+.install-banner .install-icon{width:44px;height:44px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:21px;flex:0 0 auto}
+.install-banner .install-copy{flex:1}
+.install-banner .install-copy b{display:block;font-size:13px}
+.install-banner .install-copy small{display:block;font-size:10px;line-height:1.35;color:var(--muted);margin-top:2px}
+.install-banner .install-btn{border:0;background:var(--g);color:#fff;border-radius:12px;padding:10px 12px;font-size:11px;font-weight:900}
+.ios-help{display:none;background:#EEF7F4;border:1px solid var(--line);border-radius:16px;padding:11px 12px;font-size:11px;color:var(--muted);line-height:1.45;margin-top:10px}
+.ios-help.show{display:block}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top">
+    <div class="brand">
+      <div class="logo">К3</div>
+      <div><b>Коктем‑3</b><small>Стоматология · Костанай</small></div>
+      <div class="demo">TEST</div>
+    </div>
+  </div>
+
+  <section class="screen active" id="home">
+    <div class="hero">
+      <div class="eyebrow">ОНЛАЙН‑ЗАПИСЬ</div>
+      <h1>Здоровая улыбка начинается здесь.</h1>
+      <p>Выберите направление, врача и желаемое время. Регистратура подтвердит запись.</p>
+      <button class="btn white" onclick="startBooking()">Записаться на приём →</button>
+    </div>
+
+    <div class="install-banner" id="installBanner">
+      <div class="install-icon">📱</div>
+      <div class="install-copy"><b>Установить «Коктем‑3»</b><small>Добавьте приложение на главный экран телефона</small></div>
+      <button class="install-btn" id="installBtn">Установить</button>
+    </div>
+    <div class="ios-help" id="iosHelp">На iPhone: нажмите <b>Поделиться</b> в Safari → <b>На экран «Домой»</b> → <b>Добавить</b>.</div>
+
+    <div class="section-title">Быстрые действия</div>
+    <div class="grid2">
+      <button class="quick" onclick="location.href='tel:+77477528253'"><div class="ico">☎️</div><b>Позвонить</b><small>Регистратура</small></button>
+      <button class="quick" onclick="openWA('Здравствуйте! Хочу записаться в стоматологию Коктем‑3.')"><div class="ico">💬</div><b>WhatsApp</b><small>Написать клинике</small></button>
+    </div>
+    <div id="latest"></div>
+    <div class="card">
+      <div class="kicker">СТОМАТОЛОГИЯ</div>
+      <h3>Коктем‑3</h3>
+      <p class="info">📍 Костанай, ул. Тәуелсіздік, 87<br>☎ +7 747 752 82 53</p>
+      <hr>
+      <p class="muted">Пн–Пт 8:00–19:00 · Сб 9:00–15:00 · Вс 9:00–14:00</p>
+    </div>
+    <div class="card">
+      <div class="kicker">ОСМС</div>
+      <h3>Стоматологическая помощь</h3>
+      <p class="muted">Для отдельных категорий пациентов часть стоматологической помощи может быть доступна в рамках ОСМС. Условия уточняются в регистратуре.</p>
+    </div>
+  </section>
+
+  <section class="screen" id="booking">
+    <div class="steps"><div class="bar on"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+    <div id="bookingBody"></div>
+  </section>
+
+  <section class="screen" id="doctors">
+    <div class="title">Наши врачи</div>
+    <div class="sub">Выберите специалиста и начните запись.</div>
+    <div id="doctorDirectory"></div>
+  </section>
+
+  <section class="screen" id="profile">
+    <div class="title">Мои заявки</div>
+    <div class="sub">Тестовая версия хранит заявки только на этом устройстве.</div>
+    <div id="bookingsList"></div>
+  </section>
+
+  <nav class="bottom">
+    <button class="tab active" data-tab="home" onclick="showTab('home')"><i>⌂</i>Главная</button>
+    <button class="tab" data-tab="booking" onclick="startBooking()"><i>＋</i>Запись</button>
+    <button class="tab" data-tab="doctors" onclick="showTab('doctors')"><i>♙</i>Врачи</button>
+    <button class="tab" data-tab="profile" onclick="showTab('profile')"><i>☻</i>Заявки</button>
+  </nav>
+</div>
+<script>
+const WA='77477528253';
+const services=[
+{id:'therapy',ico:'🦷',name:'Лечение зубов',sub:'Кариес, каналы, реставрация'},
+{id:'urgent',ico:'⚡',name:'Острая боль',sub:'Запрос на срочный приём'},
+{id:'implant',ico:'⚙️',name:'Имплантология',sub:'Консультация и имплантация'},
+{id:'ortho',ico:'👑',name:'Ортопедия',sub:'Коронки и протезирование'},
+{id:'braces',ico:'✨',name:'Ортодонтия',sub:'Прикус и брекет‑системы'},
+{id:'child',ico:'🧸',name:'Детская стоматология',sub:'Приём детей'},
+{id:'gum',ico:'🌿',name:'Пародонтология',sub:'Лечение дёсен'},
+{id:'white',ico:'✦',name:'Эстетика',sub:'Отбеливание и консультация'}];
+const doctors=[
+{id:'shak',ini:'ША',name:'Шакиров Амантай Алексеевич',spec:'Хирург‑ортопед‑имплантолог',s:['implant','ortho','urgent']},
+{id:'kuy',ini:'КР',name:'Куянбаев Руслан Бахытжанович',spec:'Ортопед‑имплантолог',s:['implant','ortho']},
+{id:'kir',ini:'КО',name:'Киричек Ольга Игоревна',spec:'Стоматолог‑терапевт',s:['therapy','gum','white','urgent']},
+{id:'shu',ini:'ШТ',name:'Шушанов Талгат Жолдыбаевич',spec:'Стоматолог‑терапевт',s:['therapy','gum','white','urgent']},
+{id:'tek',ini:'ТА',name:'Тэкешова Ажар Сериковна',spec:'Стоматолог‑терапевт',s:['therapy','gum','white','urgent']},
+{id:'koz',ini:'КГ',name:'Кожахметова Гульжихан Шомытовна',spec:'Детский стоматолог, терапевт',s:['child','therapy','urgent']}];
+let st={step:1,service:null,doctor:null,date:null,time:null};
+
+function openWA(text){location.href='https://wa.me/'+WA+'?text='+encodeURIComponent(text)}
+function showTab(id){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));
+ if(id==='profile')renderBookings(); if(id==='doctors')renderDirectory(); if(id==='home')renderLatest();
+ scrollTo(0,0);
+}
+function startBooking(prefDoctor=null){
+ st={step:1,service:null,doctor:prefDoctor,date:null,time:null};showTab('booking');renderStep();
+}
+function bars(){document.querySelectorAll('.bar').forEach((b,i)=>b.classList.toggle('on',i<Math.min(st.step,4)))}
+function service(){return services.find(x=>x.id===st.service)}
+function doctor(){return doctors.find(x=>x.id===st.doctor)}
+function next(){
+ if(st.step===1&&!st.service)return alert('Выберите услугу');
+ if(st.step===2&&!st.doctor)return alert('Выберите врача');
+ if(st.step===3&&(!st.date||!st.time))return alert('Выберите дату и время');
+ st.step++;renderStep();scrollTo(0,0);
+}
+function back(){st.step=Math.max(1,st.step-1);renderStep();scrollTo(0,0)}
+function pickService(id){st.service=id;st.doctor=null;renderStep()}
+function pickDoctor(id){st.doctor=id;renderStep()}
+function dates(){
+ let a=[];let now=new Date();
+ for(let i=1;i<=8;i++){let d=new Date(now);d.setDate(d.getDate()+i);a.push(d)}
+ return a;
+}
+function pickDate(iso){st.date=iso;st.time=null;renderStep()}
+function pickTime(t){st.time=t;renderStep()}
+function dateLabel(iso){return new Date(iso+'T12:00:00').toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'long'})}
+function times(){
+ if(!st.date)return[];
+ let day=new Date(st.date+'T12:00:00').getDay();
+ if(day===0)return['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00'];
+ if(day===6)return['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00'];
+ return['08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+}
+function nav(){return `<div class="nav">${st.step>1&&st.step<5?'<button class="btn ghost" onclick="back()">← Назад</button>':''}<span></span>${st.step<4?'<button class="btn" onclick="next()">Продолжить →</button>':''}</div>`}
+function renderStep(){
+ bars();
+ let b=document.getElementById('bookingBody');
+ if(st.step===1){
+  b.innerHTML=`<div class="title">Что вас интересует?</div><div class="sub">Выберите направление. План лечения определяет врач после осмотра.</div><div class="choices">${services.map(s=>`<button class="choice ${st.service===s.id?'sel':''}" onclick="pickService('${s.id}')"><div class="ico">${s.ico}</div><b>${s.name}</b><small>${s.sub}</small></button>`).join('')}</div>${nav()}`;
+ }
+ if(st.step===2){
+  let list=doctors.filter(d=>d.s.includes(st.service)); if(!list.length)list=doctors;
+  b.innerHTML=`<div class="title">Выберите врача</div><div class="sub">${service().name}</div>${list.map(d=>`<button class="doctor ${st.doctor===d.id?'sel':''}" onclick="pickDoctor('${d.id}')"><div class="avatar">${d.ini}</div><div><b>${d.name}</b><small>${d.spec}</small></div><div class="dot">●</div></button>`).join('')}${nav()}`;
+ }
+ if(st.step===3){
+  let ds=dates();
+  b.innerHTML=`<div class="title">Желаемая дата</div><div class="sub">В тестовой версии время является запросом. Регистратура подтверждает слот отдельно.</div>
+  <div class="dates">${ds.map(d=>{let iso=d.toISOString().slice(0,10);return `<button class="date ${st.date===iso?'sel':''}" onclick="pickDate('${iso}')"><span>${d.toLocaleDateString('ru-RU',{weekday:'short'})}</span><strong>${d.getDate()}</strong><span>${d.toLocaleDateString('ru-RU',{month:'short'})}</span></button>`}).join('')}</div>
+  ${st.date?`<div class="section-title">Время</div><div class="slots">${times().map((t,i)=>`<button class="slot ${st.time===t?'sel':''} ${i%8===5?'busy':''}" ${i%8===5?'disabled':''} onclick="pickTime('${t}')">${t}</button>`).join('')}</div>`:''}
+  <div class="note">Свободные интервалы здесь демонстрационные — реальное расписание подключим на следующем этапе.</div>${nav()}`;
+ }
+ if(st.step===4){
+  b.innerHTML=`<div class="title">Контактные данные</div><div class="sub">Нужны только для подтверждения записи.</div>
+   <div class="summary"><div class="sumrow"><span>Услуга</span><b>${service().name}</b></div><div class="sumrow"><span>Врач</span><b>${doctor().name}</b></div><div class="sumrow"><span>Дата</span><b>${dateLabel(st.date)}</b></div><div class="sumrow"><span>Время</span><b>${st.time}</b></div></div>
+   <label class="label">Имя и фамилия</label><input class="input" id="nm" placeholder="Например, Анна Иванова">
+   <label class="label">Телефон</label><input class="input" id="ph" inputmode="tel" placeholder="+7 7__ ___ __ __">
+   <div class="note">После нажатия откроется WhatsApp с уже подготовленной заявкой. Перед отправкой пациент видит весь текст.</div>
+   <div class="nav"><button class="btn ghost" onclick="back()">← Назад</button><span></span><button class="btn" onclick="submitBooking()">В WhatsApp →</button></div>`;
+ }
+ if(st.step===5){
+  b.innerHTML=`<div class="success"><div class="ok">✓</div><h2>Заявка создана</h2><p>Она сохранена на этом устройстве. WhatsApp откроется с заполненным сообщением — его нужно отправить регистратуре.</p><button class="btn" onclick="showTab('profile')">Мои заявки</button><div style="height:9px"></div><button class="btn ghost" onclick="startBooking()">Новая запись</button></div>`;
+ }
+}
+function load(){try{return JSON.parse(localStorage.getItem('k3test')||'[]')}catch(e){return[]}}
+function save(x){localStorage.setItem('k3test',JSON.stringify(x))}
+function submitBooking(){
+ let n=document.getElementById('nm').value.trim(),p=document.getElementById('ph').value.trim();
+ if(n.length<2||p.length<7)return alert('Укажите имя и телефон');
+ let item={id:Date.now(),name:n,phone:p,service:service().name,doctor:doctor().name,date:st.date,dateLabel:dateLabel(st.date),time:st.time};
+ let l=load();l.unshift(item);save(l);
+ let msg=`Здравствуйте! Хочу записаться в стоматологию «Коктем‑3».
+
+Пациент: ${n}
+Телефон: ${p}
+Услуга: ${item.service}
+Врач: ${item.doctor}
+Желаемые дата и время: ${item.dateLabel}, ${item.time}
+
+Пожалуйста, подтвердите запись.`;
+ st.step=5;renderStep();openWA(msg);renderLatest();
+}
+function renderBookings(){
+ let l=load(), el=document.getElementById('bookingsList');
+ el.innerHTML=l.length?l.map(x=>`<div class="card"><div class="between"><div><h3>${x.service}</h3><div class="muted">${x.doctor}</div><div class="info" style="margin-top:7px">${x.dateLabel} · ${x.time}</div></div><span class="badge">Заявка</span></div></div>`).join(''):`<div class="card"><p class="muted">На этом устройстве пока нет заявок.</p><button class="btn full" onclick="startBooking()">Создать заявку</button></div>`;
+}
+function renderLatest(){
+ let l=load(), el=document.getElementById('latest');
+ el.innerHTML=l.length?`<div class="card"><div class="between"><div><div class="kicker">ПОСЛЕДНЯЯ ЗАЯВКА</div><h3>${l[0].service}</h3><div class="muted">${l[0].dateLabel} · ${l[0].time}</div></div><span class="badge">Создана</span></div></div>`:'';
+}
+function renderDirectory(){
+ document.getElementById('doctorDirectory').innerHTML=doctors.map(d=>`<div class="doctor"><div class="avatar">${d.ini}</div><div style="flex:1"><b>${d.name}</b><small>${d.spec}</small><div style="height:8px"></div><button class="btn soft" style="min-height:38px" onclick="startBooking('${d.id}')">Записаться</button></div></div>`).join('');
+}
+renderLatest();renderDirectory();
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const b = document.getElementById('installBanner');
+  if (b) b.classList.add('show');
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  try { await deferredPrompt.userChoice; } catch(e) {}
+  deferredPrompt = null;
+  document.getElementById('installBanner')?.classList.remove('show');
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBanner')?.classList.remove('show');
+});
+(function(){
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if (isIOS && !standalone) {
+    document.getElementById('installBanner')?.classList.add('show');
+    document.getElementById('iosHelp')?.classList.add('show');
+    const btn = document.getElementById('installBtn');
+    if(btn){ btn.style.display='none'; }
+  }
+})();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
+}
+
+</script>
+</body>
+</html>
