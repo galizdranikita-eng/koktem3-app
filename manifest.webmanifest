@@ -1,14 +1,13 @@
 {
-  "name": "Коктем-3 Стоматология",
+  "name": "Коктем-3",
   "short_name": "Коктем-3",
-  "description": "Онлайн-запись в стоматологию «Коктем-3» в Костанае",
+  "description": "Коктем-3 — красивое двуязычное приложение клиники",
   "lang": "ru",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#F4F8F6",
-  "theme_color": "#0C6B5D",
-  "orientation": "portrait-primary",
+  "background_color": "#F4F8F7",
+  "theme_color": "#0E6B5C",
   "icons": [
     {
       "src": "icon-192.png",
